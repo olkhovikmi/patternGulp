@@ -1,7 +1,7 @@
-let project_folder = 'dist'; // эту папку надо выгружать на сервер и передавать заказчику
-let source_folder = '#src'; // папка с исходниками
+const project_folder = 'dist'; // эту папку надо выгружать на сервер и передавать заказчику
+const source_folder = '#src'; // папка с исходниками
 
-let path = {
+const path = {
 	build: {
 		html: project_folder + '/',
 		css: project_folder + '/css/',
@@ -25,7 +25,7 @@ let path = {
 	clean: './' + project_folder + '/'
 };
 //ПЕРЕМЕННЫЕ
-let { src, dest } = require('gulp'),
+const { src, dest } = require('gulp'),
 	gulp = require('gulp'),
 	browsersync = require('browser-sync').create(),
 	fileinclude = require('gulp-file-include'),
@@ -37,8 +37,8 @@ let { src, dest } = require('gulp'),
 	rename = require('gulp-rename'),
 	uglify = require('gulp-uglify-es').default,
 	imagemin = require('gulp-imagemin'),
-	webp = require('gulp-webp'),
-	webphtml = require('gulp-webp-html'),
+	//webp = require('gulp-webp'),
+	//webphtml = require('gulp-webp-html'),
 	ttf2woff = require('gulp-ttf2woff'),
 	ttf2woff2 = require('gulp-ttf2woff2');
 
@@ -55,7 +55,7 @@ function browserSync() {
 function html() {
 	return src(path.src.html)
 		.pipe(fileinclude())
-		.pipe(webphtml())
+		//.pipe(webphtml())
 		.pipe(dest(path.build.html))
 		.pipe(browsersync.stream());
 } //работа с html файлами
@@ -102,11 +102,11 @@ function js() {
 
 function images() {
 	return src(path.src.img)
-		.pipe(
+/* 		.pipe(
 			webp({
 				quality: 70
 			})
-		)
+		) */
 		.pipe(dest(path.build.img))
 		.pipe(src(path.src.img))
 		.pipe(
@@ -137,8 +137,8 @@ function clear() {
 	return del(path.clean);
 } //удаляет папку dist
 
-let build = gulp.series(clear, gulp.parallel(js, css, html, images, fonts));
-let watch = gulp.parallel(build, watchFiles, browserSync); //вызывает функции
+const build = gulp.series(clear, gulp.parallel(js, css, html, images, fonts));
+const watch = gulp.parallel(build, watchFiles, browserSync); //вызывает функции
 
 exports.fonts = fonts;
 exports.images = images;
